@@ -2,81 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Sign In || PayOnline || Online Payroll and HR Software HTML Template</title>
-    <!-- mobile responsive meta -->
+    <title>Sign In || kepegawaian.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/images/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/images/kepegawaian-icon.jpg">
     <link rel="manifest" href="/assets/images/favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/assets/images/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-
-
-    <!-- depdency stylesheet -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,300i,400,400i,600,600i,700,700i,800,800i%7CCovered+By+Your+Grace" rel="stylesheet">
-
-
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/animate.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/hover-min.css">
     <link rel="stylesheet" type="text/css" href="/assets/plugins/payonline-icon/style.css">
-    
-    
-
-    <!-- main template stylesheet -->
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/responsive.css">
+    <style>
+        input.no-arrow::-webkit-inner-spin-button,
+        input.no-arrow::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input.no-arrow {
+            -moz-appearance: textfield;
+        }
+    </style>
 </head>
 <body>
+    <div class="page-wrapper">
+        <div class="preloader"></div>
+        <section class="signin-wrapper min-vh-100 clearfix" style="background-image: url(/assets/images/login-img.jpg);">
+            <div class="form-block min-vh-100">
+                <h1 class="text-center mb-4">LOGIN</h1>
+                <form action="/login" method="post">
+                    @csrf
+                    <input type="number" class="form-control no-arrow @error('signin-nip') is-invalid @enderror" name="signin-nip" placeholder="Masukkan NIP" value="{{ old('signin-nip') }}" autofocus>
+                    @error('signin-nip')
+                        <div class="invalid-feedback">
+                            {{ "Nama wajib diisi!" }}
+                        </div>
+                    @enderror
+                    <input type="password" class="form-control @error('signin-password') is-invalid @enderror" name="signin-password" placeholder="Password" autofocus>
+                    @error('signin-password')
+                        <div class="invalid-feedback">
+                            {{ "Password wajib diisi!" }}
+                        </div>
+                    @enderror
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                    <button type="submit" class="thm-btn">Sign In</button>
+                </form>
+                <p class="copy-text">© Copyright 2025 by <a href="login">kepegawaian.com</a></p>
+            </div>
+            <div class="background-block min-vh-100" style="background-image: url(/assets/images/login-img.jpg);"></div><!-- /.background-block -->
+        </section>
+    </div>
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="/assets/js/owl.carousel.min.js"></script>
+    <script src="/assets/js/isotope.js"></script>
+    <script src="/assets/js/bootstrap-select.min.js"></script>
+    <script src="/assets/js/jquery.bxslider.min.js"></script>
+    <script src="/assets/js/theme.js"></script>
 
-<div class="page-wrapper">
-
-    <div class="preloader"></div><!-- /.preloader -->
-    
-    <section class="signin-wrapper min-vh-100 clearfix" style="background-image: url(/assets/images/signup.jpg);">
-        <div class="form-block min-vh-100">
-            <form action="#">
-                <input type="text" name="c-code" placeholder="Client code">
-                <input type="text" name="signin-username" placeholder="User name">
-                <input type="password" name="signin-password" placeholder="Password">
-                <a href="#" class="forgot-password">Forgot password?</a>
-                <button type="submit" class="thm-btn">Sign In</button>
-                <p class="sign-up-link">New to Payonline? <a href="#">Sign up</a></p>
-            </form>
-            <p class="copy-text">© Copyright 2019 by <a href="#">TemplatePath.com</a></p>
-        </div><!-- /.form-block -->
-        <div class="background-block min-vh-100" style="background-image: url(/assets/images/signup.jpg);">
-            
-        </div><!-- /.background-block -->
-    </section><!-- /.signin-wrapper -->
-    
-
-</div><!-- /.page-wrapper -->
-
-
-
-<script src="/assets/js/jquery.js"></script>
-<script src="/assets/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/jquery.magnific-popup.min.js"></script>
-<script src="/assets/js/owl.carousel.min.js"></script>
-<script src="/assets/js/isotope.js"></script>
-<script src="/assets/js/bootstrap-select.min.js"></script>
-<script src="/assets/js/jquery.bxslider.min.js"></script>
-<script src="/assets/js/theme.js"></script>
-
-
+    @include('sweetalert::alert')
 </body>
 </html>
