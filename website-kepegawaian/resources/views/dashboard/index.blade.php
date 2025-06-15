@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@push('title')
+    Dashboard | kepegawaian.com
+@endpush
+
 @section('konten')
     <div id="minimal-bootstrap-carousel" class="carousel slide carousel-fade slider-content-style slider-home-one">
         <!-- Wrapper for slides -->

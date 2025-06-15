@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Home One || PayOnline || Online Payroll and HR Software HTML Template</title>
+    <title>@stack('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/favicon/apple-icon-60x60.png">
@@ -34,6 +34,8 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/responsive.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -59,7 +61,7 @@
                                 <a href="/dashboard">Dashboard</a>
                             </li>
                             <li>
-                                <a href="solutions.html">Log Harian</a>
+                                <a href="/log-harian">Log Harian</a>
                             </li>
                             <li>
                                 <a href="about-1.html">Profile</a>
@@ -140,6 +142,6 @@
     <script src="/assets/js/bootstrap-select.min.js"></script>
     <script src="/assets/js/theme.js"></script>
 
-
+    @stack('scripts')
 </body>
 </html>
