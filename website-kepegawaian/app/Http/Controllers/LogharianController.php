@@ -66,7 +66,7 @@ class LogharianController extends Controller
             ->editColumn('log_status', function($row) {
                 if($row->log_status == 'pending'){
                     return '<span class="badge badge-secondary">'.$row->log_status.'</span>';
-                }elseif($row->log_status == 'disetujui'){
+                }else if($row->log_status == 'disetujui'){
                     return '<span class="badge badge-success">'.$row->log_status.'</span>';
                 }else{
                     return '<span class="badge badge-danger">'.$row->log_status.'</span>';

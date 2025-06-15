@@ -4,20 +4,7 @@
     <meta charset="UTF-8"/>
     <title>@stack('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/images/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="144x144"  href="/assets/images/favicon/android-icon-144x144.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/images/brand-2.png">
     <link rel="manifest" href="/assets/images/favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/assets/images/favicon/ms-icon-144x144.png">
@@ -103,10 +90,10 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="main-navigation" id="main-nav-bar">
                         <ul class="navigation-box">
-                            <li class=" current">
+                            <li class="" id="dashboard_menu">
                                 <a href="/dashboard">Dashboard</a>
                             </li>
-                            <li>
+                            <li class="" id="log_harian_menu">
                                 <a href="#" class="blokir-link">Log Harian</a>
                                 <ul class="sub-menu">
                                     <li>
@@ -117,7 +104,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li>
+                            <li class="" id="profile_menu">
                                 <a href="#" class="blokir-link">Profile</a>
                                 <ul class="sub-menu">
                                     <li>
@@ -211,6 +198,8 @@
     @include('sweetalert::alert')
 
     <script>
+
+        $(document).ready(function () {
         $('.blokir-link').on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -220,6 +209,19 @@
             'opacity': '0.6'            // Opsional: kasih efek disabled
         });
 
+        $()
+
+        let path = window.location.pathname;
+        console.log(path);
+        if(path == '/dashboard'){
+            $('#dashboard_menu').addClass('current');
+        }else if((path == '/log-saya') || (path == '/log-manajemen')){
+            $('#log_harian_menu').addClass('current');
+        }else{
+            $('#profile_menu').addClass('current');
+        }
+
+    });
     </script>
 </body>
 </html>
