@@ -9,26 +9,41 @@ use RealRashid\SweetAlert\Facades\Alert;
 class LoginController extends Controller
 {
     public function index(){
+        if (Auth::check()) {
+            return redirect('/dashboard'); // atau route sesuai role
+        }
         return view('login.index');
     }
 
-    public function authenticate(Request $request){
-        $loginData = $request->validate([
+    public function login(Request $request)
+    {   
+        $credentials = $request->validate([
             'signin-nip' => 'required',
             'signin-password' => 'required'
         ]);
 
-        $credentials = [
-            'nip' => $loginData['signin-nip'],
-            'password' => $loginData['signin-password']
+        $logindata = [
+            'nip' => $credentials['signin-nip'],
+            'password' => $credentials['signin-password']
         ];
 
-        if(Auth::attempt($credentials)){
+        if (Auth::attempt($logindata)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect('/dashboard');
         }
 
-        Alert::error('Login Gagal', 'Data yang anda masukkan salah!');
-        return back();
+        Alert::error('Login Gagal', 'Data credential yang dimasukkan salah!')->autoclose(3000);
+        return redirect('/login');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        Alert::toast('Berhasil melakukan logout.', 'success')->autoclose(3000);
+        return redirect('/login');
     }
 }

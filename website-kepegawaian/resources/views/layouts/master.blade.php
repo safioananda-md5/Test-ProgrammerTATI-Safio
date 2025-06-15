@@ -14,6 +14,7 @@
     <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/favicon/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-icon-180x180.png">
     <link rel="icon" type="image/png" sizes="192x192"  href="/assets/images/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="144x144"  href="/assets/images/favicon/android-icon-144x144.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/images/favicon/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
@@ -21,6 +22,7 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/assets/images/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://fonts.googleapis.com/css?family=Nunito:300,300i,400,400i,600,600i,700,700i,800,800i%7CCovered+By+Your+Grace" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/animate.css">
@@ -31,11 +33,55 @@
     <link rel="stylesheet" type="text/css" href="/assets/plugins/bands-icon/style.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/owl.theme.default.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/datatables/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/responsive.css">
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
+
+    <style>
+        .dataTables_filter {
+            display: flex;
+            align-items: center;
+            gap: 8px; /* Jarak antara label dan input */
+            margin-bottom: 20px; 
+        }
+
+        .dataTables_filter label {
+            margin: 0;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dataTables_filter input {
+            width: 200px;
+            height: 30px;
+            font-size: 0.875rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+        }
+
+        /* Rapikan tombol paging (sekaligus) */
+        .dataTables_paginate .paginate_button {
+            padding: 0.3rem 0.75rem;
+            margin: 0 2px;
+            font-size: 0.875rem;
+            border-radius: 4px !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -61,19 +107,36 @@
                                 <a href="/dashboard">Dashboard</a>
                             </li>
                             <li>
-                                <a href="/log-harian">Log Harian</a>
+                                <a href="#" class="blokir-link">Log Harian</a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="/log-saya">Catat & Log Saya</a>
+                                    </li>
+                                    <li>
+                                        <a href="/log-manajemen">Kelola Log</a>
+                                    </li>
+                                </ul>
                             </li>
                             <li>
-                                <a href="about-1.html">Profile</a>
+                                <a href="#" class="blokir-link">Profile</a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="#">
+                                            <img src="/assets/images/profile.png" alt="picture-profile" class="mr-3">
+                                            {{ Auth::user()->name }}
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
-                    </div><!-- /.navbar-collapse -->
-                    <div class="right-side-box">
-                        <a href="signin.html" class="signin-btn">Sign in</a>
                     </div>
-                    <!-- /.right-side-box -->
+                    <div class="right-side-box">
+                        <form action="/logout" method="post" id="logout">
+                            @csrf
+                            <a href="#" onclick="document.getElementById('logout').submit(); return false;" class="signin-btn">Logout</a>
+                        </form>
+                    </div>
                 </div>
-                <!-- /.container -->
             </nav>
         </header>
 
@@ -141,7 +204,22 @@
     <script src="/assets/js/isotope.js"></script>
     <script src="/assets/js/bootstrap-select.min.js"></script>
     <script src="/assets/js/theme.js"></script>
+    <script src="/datatables/js/jquery.dataTables.min.js"></script>
 
     @stack('scripts')
+
+    @include('sweetalert::alert')
+
+    <script>
+        $('.blokir-link').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }).css({
+            'pointer-events': 'none',   // Nonaktifkan klik sepenuhnya
+            'cursor': 'default',        // Ubah cursor jadi biasa (bukan tangan)
+            'opacity': '0.6'            // Opsional: kasih efek disabled
+        });
+
+    </script>
 </body>
 </html>
