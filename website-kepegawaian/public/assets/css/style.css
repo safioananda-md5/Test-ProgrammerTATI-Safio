@@ -732,10 +732,10 @@ a[href^="https://maps.google.com/maps"] {
 }
 
 .header-navigation .container .right-side-box a.signin-btn {
-  background: #FFFFFF;
+  background: #001328;
   display: inline-block;
   vertical-align: middle;
-  color: #001328;
+  color: #ffffff;
   font-size: 12px;
   font-weight: 800;
   -webkit-transition: all .4s ease;
@@ -748,7 +748,7 @@ a[href^="https://maps.google.com/maps"] {
 }
 
 .header-navigation .container .right-side-box a.signin-btn:hover {
-  background: #0f6fd5;
+  background: #ee3234;
   color: #fff;
 }
 
@@ -790,7 +790,7 @@ a[href^="https://maps.google.com/maps"] {
 .header-navigation ul.navigation-box > li > a {
   font-weight: 700;
   font-size: 16px;
-  color: #FFFFFF;
+  color: #001328;
   padding: 0;
   -webkit-transition: all .4s ease;
   transition: all .4s ease;
@@ -1310,8 +1310,8 @@ a[href^="https://maps.google.com/maps"] {
 .slider-content-style .content h3 {
   margin: 0;
   font-size: 120px;
-  line-height: 110px;
-  color: #fff;
+  line-height: 130px;
+  color: #001328;
   font-weight: 700;
   letter-spacing: -0.06em;
   -webkit-animation-delay: .5s;
@@ -1321,6 +1321,7 @@ a[href^="https://maps.google.com/maps"] {
   margin: 0;
 }
 .slider-content-style .content p {
+  color: #001328;
   margin: 0;
   font-size: 40px;
   line-height: 1em;
@@ -1333,8 +1334,8 @@ a[href^="https://maps.google.com/maps"] {
   animation-delay: 2s;
 }
 .slider-content-style .content a.thm-btn:hover {
-  background: #fff;
-  color: #001328;
+  background: #001328;
+  color: #ffffff;
   -webkit-box-shadow: 0px 10px 30px 0px rgba(255, 255, 255, 0.3);
           box-shadow: 0px 10px 30px 0px rgba(255, 255, 255, 0.3);
 }
