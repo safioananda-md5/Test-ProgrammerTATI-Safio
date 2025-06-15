@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
+                'role_id'=>1,
                 'name' => 'Administrator',
                 'nip' => '99999999',
                 'password' => Hash::make('admin456'),
@@ -28,6 +29,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'role_id'=>2,
                 'nama' => 'Drs. Ahmad Hidayat, M.Si.',
                 'nip' => '197512241998031001',
                 'password' => Hash::make('ahmad123'),
@@ -38,6 +40,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'role_id'=>3,
                 'nama' => 'Ir. Siti Nurhaliza, M.T.',
                 'nip' => '198004111999032002',
                 'password' => Hash::make('sitinur456'),
@@ -48,6 +51,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'role_id'=>3,
                 'nama' => 'Dr. Budi Santoso, S.Kom., M.Kom.',
                 'nip' => '198309251997011003',
                 'password' => Hash::make('budi789'),
@@ -58,6 +62,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'role_id'=>4,
                 'nama' => 'Prof. Dr. Rina Kartika, M.Pd.',
                 'nip' => '196712121990042004',
                 'password' => Hash::make('rina321'),
@@ -68,6 +73,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'role_id'=>4,
                 'nama' => 'Hj. Dewi Anggraini, S.E., M.M.',
                 'nip' => '197901051999052005',
                 'password' => Hash::make('dewi654'),
