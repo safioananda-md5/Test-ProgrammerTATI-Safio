@@ -23,16 +23,18 @@
     <link rel="stylesheet" href="/datatables/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/responsive.css">
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        $.ajaxSetup({
-            headers:{
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
         });
+        
     </script>
 
     <style>
@@ -68,6 +70,20 @@
             font-size: 0.875rem;
             border-radius: 4px !important;
         }
+
+        td.wrap-text {
+            white-space: normal !important;
+            word-break: break-word;
+            vertical-align: top;
+        }
+
+        .role-name{
+            color: #ffffff;
+        }
+
+        .role-name:hover{
+            color: #001328;
+        }
     </style>
 </head>
 <body>
@@ -95,23 +111,33 @@
                             </li>
                             <li class="" id="log_harian_menu">
                                 <a href="#" class="blokir-link">Log Harian</a>
+                                <span class="badge bg-danger text-light" id="notifBadgemain" style="display: none;">0</span>
                                 <ul class="sub-menu">
-                                    <li>
-                                        <a href="/log-saya">Catat & Log Saya</a>
-                                    </li>
-                                    <li>
-                                        <a href="/log-manajemen">Kelola Log</a>
-                                    </li>
+                                    @if(in_array(Auth::user()->role->role_name, ['kepaladinas', 'kepalabagian', 'staff']))
+                                        <li>
+                                            <a href="/log-saya">Catat & Log Saya</a>
+                                        </li>
+                                    @endif
+                                    @if(in_array(Auth::user()->role->role_name, ['admin', 'kepaladinas', 'kepalabagian']))
+                                        <li>
+                                            <a href="/{{ Auth::user()->role->role_name }}/log-manajemen">Kelola Log <span class="badge bg-danger text-light" id="notifBadgesecondary" style="display: none;">0</span></a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
                             <li class="" id="profile_menu">
                                 <a href="#" class="blokir-link">Profile</a>
                                 <ul class="sub-menu">
-                                    <li>
-                                        <a href="#">
-                                            <img src="/assets/images/profile.png" alt="picture-profile" class="mr-3">
-                                            {{ Auth::user()->name }}
-                                        </a>
+                                    <li class="role-name">
+                                        <div class="row">
+                                            <div class="col-4 d-flex justify-content-center align-items-center"><img src="/assets/images/profile.png" alt="picture-profile" width="25" height="25"></div>
+                                            <div class="col-8 d-flex justify-content-start">
+                                                <a href="#"><span class="break-words text-sm leading-snug">{{ Auth::user()->name }}awfawfawfawfawf</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-4 d-flex justify-content-center align-items-center">{{ Auth::user()->role->role_name }}</span></div>
+                                        </div>
                                     </li>
                                 </ul>
                             </li>
@@ -200,28 +226,54 @@
     <script>
 
         $(document).ready(function () {
-        $('.blokir-link').on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }).css({
-            'pointer-events': 'none',   // Nonaktifkan klik sepenuhnya
-            'cursor': 'default',        // Ubah cursor jadi biasa (bukan tangan)
-            'opacity': '0.6'            // Opsional: kasih efek disabled
+            $('.blokir-link').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }).css({
+                'pointer-events': 'none',   // Nonaktifkan klik sepenuhnya
+                'cursor': 'default',        // Ubah cursor jadi biasa (bukan tangan)
+                'opacity': '0.6'            // Opsional: kasih efek disabled
+            });
+
+            function loadNotifBadge() {
+                $.ajax({
+                    url: "{{ route('get.notifikasi') }}",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.status === 1) {
+                            let jumlah = response.jumlah;
+
+                            // Update badge
+                            $('#notifBadgemain').text(jumlah);
+                            $('#notifBadgesecondary').text(jumlah);
+
+                            // Sembunyikan jika 0
+                            if (jumlah === 0) {
+                                $('#notifBadgemain').hide();
+                                $('#notifBadgesecondary').hide();
+                            } else {
+                                $('#notifBadgemain').show();
+                                $('#notifBadgesecondary').show();
+                            }
+                        }
+                    }
+                });
+            }
+
+            loadNotifBadge();
+            setInterval(loadNotifBadge, 10000);
+
+            let path = window.location.pathname;
+            if(path == '/dashboard'){
+                $('#dashboard_menu').addClass('current');
+            }else if((path == '/log-saya') || (path == '/log-manajemen')){
+                $('#log_harian_menu').addClass('current');
+            }else{
+                $('#profile_menu').addClass('current');
+            }
+
         });
-
-        $()
-
-        let path = window.location.pathname;
-        console.log(path);
-        if(path == '/dashboard'){
-            $('#dashboard_menu').addClass('current');
-        }else if((path == '/log-saya') || (path == '/log-manajemen')){
-            $('#log_harian_menu').addClass('current');
-        }else{
-            $('#profile_menu').addClass('current');
-        }
-
-    });
     </script>
 </body>
 </html>

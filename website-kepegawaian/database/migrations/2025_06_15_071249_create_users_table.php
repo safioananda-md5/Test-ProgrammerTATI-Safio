@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('nip')->unique();
             $table->string('password');
+            $table->string('position');
             $table->text('address')->nullable();
             $table->string('phone_number')->nullable();
             $table->rememberToken();

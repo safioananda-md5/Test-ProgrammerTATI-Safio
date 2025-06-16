@@ -64,10 +64,76 @@
             </div>
         </div>
     </section>
+    <div class="modal fade" id="edit_log" tabindex="-1" aria-labelledby="edit_log_Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/update-log-saya" method="post" id="update_log_form">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="edit_log_Label">Edit Log</h1>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="mb-3">
+                            <tbody>
+                                <tr>
+                                    <td>ID Log</td>
+                                    <td style="width: 20px;" class="text-center">:</td>
+                                    <td id="id_log_edit"></td>
+                                </tr>
+                                <tr>
+                                    <td>NIP</td>
+                                    <td style="width: 20px;" class="text-center">:</td>
+                                    <td id="nip_edit"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal</td>
+                                    <td style="width: 20px;" class="text-center">:</td>
+                                    <td id="tanggal_edit"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mb-3">
+                            <input type="hidden" name="hidden_id_log_edit" id="hidden_id_log_edit">
+                            <label for="edit_log_harian" class="col-form-label">Log Harian:</label>
+                            <textarea class="form-control" name="edit_log_harian" id="edit_log_harian"></textarea>
+                            <span class="form-text text-danger error-text edit_log_harian_error"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
 <script>
+
+    let table = $('table#daftar_log_saya').DataTable({
+        processing:true,
+        info:true,
+        serverSide:true,
+        responsive:true,
+        scrollX: true,
+        autoWidth:false,
+        pageLength:7,
+        aLengthMenu:[[7,14,21,30,-1],[7,14,21,30,'All']],
+        ajax:"{{route('get-log-saya')}}",
+        columns:[
+            { data:'id', name:'id', className: 'text-center', orderable: false },
+            { data:'log_detail', name:'log_detail', orderable: false},
+            { data:'updated_at', name:'updated_at', className: 'text-center', orderable: false},
+            { data:'log_status', name:'log_status', className: 'text-center wrap-text', orderable: false},
+            { data:'actions', name:'actions', className: 'text-center', orderable: false}
+        ]
+    });
+
     $(document).ready(function () {
         let hasLogToday = @json($hasLogToday);
 
@@ -162,21 +228,128 @@
                 }
             });
         });
+    });
 
-        let table = $('table#daftar_log_saya').DataTable({
-            processing:true,
-            info:true,
-            serverSide:true,
-            responsive:true,
-            autoWidth:false,
-            ajax:"{{route('get-log-saya')}}",
-            columns:[
-                { data:'id', name:'id', className: 'text-center', orderable: false },
-                { data:'log_detail', name:'log_detail', orderable: false},
-                { data:'updated_at', name:'updated_at', className: 'text-center', orderable: false},
-                { data:'log_status', name:'log_status', className: 'text-center', orderable: false},
-                { data:'actions', name:'actions', className: 'text-center', orderable: false}
-            ]
+    $(document).on('click', '#tombolModal', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+
+        $.ajax({
+            url: '/log-harian/show/' + id,
+            method: 'GET',
+            dataType: 'json',
+            success: function(view) {
+                let nipSaya = "{{ Auth::user()->nip }}";
+
+                if(view.nip !== nipSaya){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Akses Ditolak',
+                        text: 'Anda tidak memiliki izin untuk mengakses log ini.',
+                    });
+                    return;
+                }
+                
+                $('#id_log_edit').html(view.id);
+                $('#nip_edit').html(view.nip);
+
+                let tanggal = new Date(view.updated_at);
+                let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                let tanggalFormat = tanggal.toLocaleDateString('id-ID', options);
+
+                $('#tanggal_edit').html(tanggalFormat);
+                $('#edit_log_harian').val(view.log_detail);
+                $('#hidden_id_log_edit').val(view.id);
+                $('#edit_log').modal('show');
+            },
+            error: function() {
+                alert("Gagal mengambil data log.");
+            }
+        });
+    });
+
+    function renumberLinesedit() {
+        const lines = $('#edit_log_harian').val().split('\n');
+        const newLines = lines.map((line, index) => {
+            const cleanLine = line.replace(/^\d+\.\s*/, '');
+            return `${index + 1}. ${cleanLine}`;
+        });
+        $('#edit_log_harian').val(newLines.join('\n'));
+    }
+
+    $('#edit_log_harian').on('focus', function () {
+        if ($(this).val().trim() === '') {
+            $(this).val('1. ');
+        }
+    });
+
+    $('#edit_log_harian').on('input', renumberLinesedit);
+
+    $('form').on('submit', function () {
+        let textarea = $('#edit_log_harian');
+        let lines = textarea.val().split('\n');
+
+        let cleaned = [];
+        let count = 1;
+
+        lines.forEach(function (line) {
+            if (!line.match(/^\d+\.\s*$/)) {
+                cleaned.push((count++) + '. ' + line.replace(/^\d+\.\s*/, '')); // hapus nomor lama lalu tambahkan nomor baru
+            }
+        });
+
+        textarea.val(cleaned.join('\n'));
+    });
+
+    $('form#update_log_form').on('submit', function(e){
+        e.preventDefault();
+        
+        let form = this;
+        let formdata = new FormData(form);
+
+        
+        $.ajax({
+            url:$(form).attr('action'),
+            method:$(form).attr('method'),
+            data:formdata,
+            processData:false,
+            dataType:'json',
+            contentType:false,
+            beforeSend:function(){
+                $(form).find('span.error-text').text('');
+            },
+            success:function(data){
+                if(data.status == 1){
+                    $(form)[0].reset();
+                    Swal.fire({
+                        toast: true,
+                        icon: 'success',
+                        title: data.message,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                    $('#edit_log').modal('hide');
+                }
+                table.ajax.reload(null,false);
+            },
+            error:function(data){
+                if(data.status == 0){
+                    Swal.fire({
+                        toast: true,
+                        icon: 'error',
+                        title: data.message,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                }
+                $.each(data.responseJSON.errors, function(prefix, val){
+                    $(form).find('span.'+prefix+'_error').text(val[0]);
+                });
+            }
         });
     });
 </script>

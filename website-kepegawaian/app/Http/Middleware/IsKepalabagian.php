@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class IsKepaladinas
+class IsKepalabagian
 {
     public function handle(Request $request, Closure $next)
     {
@@ -14,8 +14,8 @@ class IsKepaladinas
             return redirect('/login'); // Belum login
         }
 
-        if (Auth::user()->role->role_name !== 'kepaladinas') {
-            abort(403, 'Hanya kepala dinas yang bisa mengakses halaman ini.');
+        if (Auth::user()->role->role_name !== 'kepalabagian') {
+            abort(403, 'Hanya kepala bagian yang bisa mengakses halaman ini.');
         }
 
         return $next($request);
