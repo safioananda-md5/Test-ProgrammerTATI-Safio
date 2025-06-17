@@ -388,7 +388,6 @@
                     allowOutsideClick: false,
                 }).then(function(result){
                     if (result.isConfirmed) {
-                        // Kirim data dengan POST setelah konfirmasi
                         $.ajax({
                             url: "{{ route('admin_setuju') }}", // Sesuaikan dengan route POST kamu
                             type: "POST",
