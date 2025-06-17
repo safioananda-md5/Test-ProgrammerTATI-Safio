@@ -190,6 +190,12 @@
                 });
             });
         });
+
+        $(document).ready(function(){
+            setInterval(function () {
+                table.ajax.reload();
+            }, 10000);
+        });
     }else if(path == '/kepalabagian/log-manajemen'){
         // window.location.href = '{{route('kepalabagian-get-log-pegawai')}}';
         let table = $('table#log_pegawai').DataTable({
@@ -339,6 +345,12 @@
                 });
             });
         });
+
+        $(document).ready(function(){
+            setInterval(function () {
+                table.ajax.reload();
+            }, 10000);
+        });
     }else if(path == '/admin/log-manajemen'){
         let table = $('table#log_pegawai').DataTable({
             processing:true,
@@ -486,6 +498,12 @@
                     }
                 });
             });
+        });
+
+        $(document).ready(function(){
+            setInterval(function () {
+                table.ajax.reload();
+            }, 10000);
         });
     }
     

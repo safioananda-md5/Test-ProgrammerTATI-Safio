@@ -352,5 +352,11 @@
             }
         });
     });
+
+    $(document).ready(function(){
+        setInterval(function () {
+            table.ajax.reload();
+        }, 10000);
+    });
 </script>
 @endpush
