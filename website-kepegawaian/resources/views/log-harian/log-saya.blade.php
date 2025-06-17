@@ -303,8 +303,11 @@
 
     $('form#update_log_form').on('submit', function(e){
         e.preventDefault();
+        
         let form = this;
         let formdata = new FormData(form);
+
+        
         $.ajax({
             url:$(form).attr('action'),
             method:$(form).attr('method'),
@@ -321,36 +324,31 @@
                     Swal.fire({
                         toast: true,
                         icon: 'success',
-                        title: response.message,
+                        title: data.message,
                         position: 'top-end',
                         showConfirmButton: false,
                         timer: 3000,
                         timerProgressBar: true
                     });
                     $('#edit_log').modal('hide');
-                    table.ajax.reload(null,false);
-                }else{
+                }
+                table.ajax.reload(null,false);
+            },
+            error:function(data){
+                if(data.status == 0){
                     Swal.fire({
+                        toast: true,
                         icon: 'error',
                         title: data.message,
-                        toast: true,
                         position: 'top-end',
                         showConfirmButton: false,
-                        timer: 3000
+                        timer: 3000,
+                        timerProgressBar: true
                     });
                 }
-            },
-            error:function(xhr){
-                Swal.fire({
-                    toast: true,
-                    icon: 'error',
-                    title: data.message,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true
+                $.each(data.responseJSON.errors, function(prefix, val){
+                    $(form).find('span.'+prefix+'_error').text(val[0]);
                 });
-                console.error(xhr.responseText);
             }
         });
     });
