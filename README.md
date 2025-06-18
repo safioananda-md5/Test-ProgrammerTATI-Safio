@@ -5,7 +5,7 @@
 <h1 align="center">TUGAS WEBSITE KEPEGAWAIAN HINGGA API</h1>
 
 <p align="center">
-  <i>Repository ini saya kerjakan sebagai bagian dari tes/interview magang di <strong>PT. TATI</strong>.</i>
+  <i>Repository ini saya kerjakan sebagai bagian dari tes/seleski magang di <strong>PT. TATI</strong>.</i>
 </p>
 
 ---
