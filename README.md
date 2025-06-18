@@ -38,11 +38,39 @@ Project ini berisi sistem backend serta frontend sederhana berbasis Laravel 12 y
 
 ## ⚙️ Instalasi
 
+website-kepegawaian
 ```bash
-git clone https://github.com/safioananda-md5/Test-ProgrammerTATI-Safio
-cd repo-wilayah-indonesia
-composer install
-cp .env.example .env
-php artisan key:generate
+git clone https://github.com/safioananda-md5/Test-ProgrammerTATI-Safio.git
+cd website-kepegawaian
+php artisan migrate --seed
+php artisan serve
+```
+
+website-kepegawaian
+```bash
+git clone https://github.com/safioananda-md5/Test-ProgrammerTATI-Safio.git
+cd wilayah-indonesia
 php artisan migrate
-php artisan db:seed
+https://127.0.0.1/Test-ProgrammerTATI-Safio/wilayah-indonesia/public/api (untuk postman)
+/reset-database - mengisi/ reset database
+/provinsi - menampilkan daftar provinsi
+/provinsi/{{province_code}} - menampilkan detail provinsi
+post - /provinsi - menambah provinsi baru
+put - /provinsi/{{province_code}} - mengupdate provinsi
+delete - /provinsi/{{province_code}} - menghapus provinsi
+```
+
+predikat-pegawai
+```bash
+git clone https://github.com/safioananda-md5/Test-ProgrammerTATI-Safio.git
+cd predikat-pegawai
+php artisan migrate --seed
+php artisan serve
+```
+
+fungsi-helloworld
+```bash
+git clone https://github.com/safioananda-md5/Test-ProgrammerTATI-Safio.git
+cd fungsi-helloworld
+php artisan serve
+```
