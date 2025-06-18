@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://via.placeholder.com/200x80?text=PT.+TATI+Logo" alt="PT. TATI Logo" width="200"/>
+  <img src="https://pttati.co.id/assets/img/LOGO%20TATI%201.jpg" alt="PT. TATI Logo" width="200"/>
 </p>
 
 <h1 align="center">🇮🇩 Wilayah Indonesia API Seeder</h1>
