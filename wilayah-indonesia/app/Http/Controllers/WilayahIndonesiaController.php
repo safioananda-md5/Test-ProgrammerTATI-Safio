@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\Rule;
 
 class WilayahIndonesiaController extends Controller
 {
@@ -153,7 +154,7 @@ class WilayahIndonesiaController extends Controller
 
     public function update_provinsi(Request $request, $code){
         $validator = Validator::make($request->all(), [
-            'code' => 'required|unique:provinces,code',
+            'code' => ['required', Rule::unique('provinces', 'code')->ignore($code, 'code'),],
             'name' => 'required'
         ],[
            'code.required' => 'Code Provinsi Wajib Diisi!',
